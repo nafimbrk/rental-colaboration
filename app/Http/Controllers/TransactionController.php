@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Midtrans\Transaction;
 
 class TransactionController extends Controller
 {
@@ -160,22 +161,17 @@ class TransactionController extends Controller
 
 
 
-    public function destroy($uuid, Request $request)
-    {
-        $carId = $request->input('car_id');
-        try {
-            DB::transaction(function () use ($uuid, $carId) {
-                $rowRental = Rental::findOr($uuid);
-                $rowRental->delete();
+    public function print($uuid)
+{
+    $transaction = Rental::with([
+        'customer',
+        'car',
+        'payment'
+    ])->where('uuid', $uuid)->firstOrFail();
 
-                Car::where('id', $carId)->update([
-                    'status' => 'available'
-                ]);
-            });
-        } catch (\Throwable $th) {
-            Log::info($th->getMessage());
-        }
-    }
+    return view('print.transaction', compact('transaction'));
+}
+
 
 
     public function returnedCar($uuid)

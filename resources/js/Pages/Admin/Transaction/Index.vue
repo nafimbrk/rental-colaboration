@@ -228,12 +228,13 @@ const closeModalDelete = () => {
     formDelete.reset()
 }
 
-const deleteTrx = () => {
-
-    formDelete.delete(`/admin/transaction/${uuidTrx.value}?car_id=${carId.value}`, {
-        onSuccess: closeModalDelete
-    })
+const printTransaction = (uuid) => {
+    window.open(
+        route('admin.transaction.print', uuid),
+        '_blank'
+    )
 }
+
 
 
 let search = ref(props.filters?.search ?? "");
@@ -468,13 +469,12 @@ const lunasPayment = () => {
                                     title="Edit Mobil">
                                     <span class="material-icons text-sm">edit</span>
                                 </button>
-                                <button @click="openModalDelete(tl)"
-                                v-if="user.role === 'admin'"
-                                    class="p-2 rounded-lg bg-red-500 text-white hover:bg-red-600 flex items-center justify-center"
-                                    title="Hapus Mobil">
-                                    <span class="material-icons text-sm">delete</span>
+                                <button @click="printTransaction(tl.uuid)"
+                                    class="p-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
+                                    title="Cetak Transaksi">
+                                    <span class="material-icons text-sm">print</span>
                                 </button>
-
+                                
                             </div>
                         </td>
                     </tr>

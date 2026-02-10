@@ -54,7 +54,10 @@ Route::prefix('admin')->name('admin.transaction.')->middleware('auth')->group(fu
     Route::get('/transaction', [TransactionController::class, 'index'])->name('index');
     Route::post('/transaction', [TransactionController::class, 'store'])->name('store');
     Route::put('/transaction/{uuid}', [TransactionController::class, 'update'])->name('update');
-    Route::delete('/transaction/{uuid}', [TransactionController::class, 'destroy'])->name('destroy')->middleware('admin');
+    Route::get('/admin/transaction/{uuid}/print', 
+    [TransactionController::class, 'print']
+)->name('admin.transaction.print');
+
     Route::post('/returned/{uuid}', [TransactionController::class, 'returnedCar'])->name('return.car');
     Route::post('/lunas/{uuid}', [TransactionController::class, 'lunasPayment'])->name('lunas.payment');
 });
