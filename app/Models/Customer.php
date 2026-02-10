@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Customer extends Model
+{
+    protected $guarded = ['id'];
+
+    public function rental(): HasMany
+    {
+        return $this->hasMany(Rental::class);
+    }
+
+    public function rating(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+}
